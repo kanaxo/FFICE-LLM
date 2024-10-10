@@ -88,7 +88,6 @@ vectordb = Chroma.from_documents(
 print('saved to chroma database')
 ### BUILD CHAIN ####
 
-# Build prompt
 template = """You are an expert on the FF-ICE implementation guidance, which provides detailed instructions on implementing the latest air traffic management concept, including filing flight plans and operational procedures.
 
 Your task is to:
@@ -109,40 +108,52 @@ Always base your response on the provided context from the document. Avoid any s
 {context}
 Question: {question}
 Helpful Answer:"""
-QA_CHAIN_PROMPT = PromptTemplate.from_template(template)
 
-# Run chain
-qa_chain = RetrievalQA.from_chain_type(
-    ChatOpenAI(model='gpt-4o-mini'),
-    retriever=vectordb.as_retriever(search_kwargs={'k': 3}),
-    return_source_documents=True, # Make inspection of document possible
-    chain_type_kwargs={"prompt": QA_CHAIN_PROMPT}
-)
+def build_chain():
+# Build prompt
 
-### TEST OUTPUT ###
-question = 'Is ATFM restriction part of the R/T element?'
-output = qa_chain.invoke(question)
-print(output)
+    QA_CHAIN_PROMPT = PromptTemplate.from_template(template)
 
-### OBTAIN NUMBER OF TOKENS USED ###
-# Step 1: Retrieve documents based on the question
-retrieved_docs = vectordb.as_retriever(search_kwargs={'k': 3}).get_relevant_documents(question)
-# Step 2: Combine the retrieved documents into a single context string
-context_string = "\n\n".join([doc.page_content for doc in retrieved_docs])  # Adjust according to your document structure
-# Print the combined context string for inspection
-print("Combined Context String:\n", context_string)
-# Get response only
-model_response = output['result']
-formatted_prompt = template.format(context=context_string, question=question)
-# Step 5: Count tokens
-prompt_tokens = llm.count_tokens(formatted_prompt)
-output_tokens = llm.count_tokens(model_response)
+    # Run chain
+    qa_chain = RetrievalQA.from_chain_type(
+        ChatOpenAI(model='gpt-4o-mini'),
+        retriever=vectordb.as_retriever(search_kwargs={'k': 3}),
+        return_source_documents=True, # Make inspection of document possible
+        chain_type_kwargs={"prompt": QA_CHAIN_PROMPT}
+    )
+    return qa_chain
 
-# Step 6: Calculate total tokens
-total_tokens = prompt_tokens + output_tokens
+# print("building chain")
+# qa_chain = build_chain()
 
-# Print the token counts
-print("Prompt Tokens:", prompt_tokens)
-print("Output Tokens:", output_tokens)
-print("Total Tokens:", total_tokens)
 
+def test_chain(qa_chain, question):
+    ### TEST OUTPUT ###
+    output = qa_chain.invoke(question)
+
+    ### OBTAIN NUMBER OF TOKENS USED ###
+    # Step 1: Retrieve documents based on the question
+    retrieved_docs = vectordb.as_retriever(search_kwargs={'k': 3}).get_relevant_documents(question)
+    # Step 2: Combine the retrieved documents into a single context string
+    context_string = "\n\n".join([doc.page_content for doc in retrieved_docs])  # Adjust according to your document structure
+    # Print the combined context string for inspection
+    print("Combined Context String:\n", context_string)
+    # Get response only
+    model_response = output['result']
+    formatted_prompt = template.format(context=context_string, question=question)
+    # Step 5: Count tokens
+    prompt_tokens = llm.count_tokens(formatted_prompt)
+    output_tokens = llm.count_tokens(model_response)
+
+    # Step 6: Calculate total tokens
+    total_tokens = prompt_tokens + output_tokens
+
+    # Print the token counts
+    print("Prompt Tokens:", prompt_tokens)
+    print("Output Tokens:", output_tokens)
+    print("Total Tokens:", total_tokens)
+    return output
+
+# print("Testing chain")
+# question = 'Is ATFM restriction part of the R/T element?'
+# test_chain(qa_chain, question)
