@@ -1,11 +1,13 @@
 ### This handles all the front-end functions
 
-import streamlit as st
-from logics.query_handler import process_user_prompt
-from utility import check_password
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+import streamlit as st
+from logics.query_handler import process_user_prompt
+from utility import check_password
+
 
 # region <--------- Streamlit App Configuration --------->
 st.set_page_config(
