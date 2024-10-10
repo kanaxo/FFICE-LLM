@@ -2,6 +2,7 @@
 import os
 from dotenv import load_dotenv
 from helper_functions import llm # <--- This is the helper function that we have created 
+import streamlit as st
 
 from langchain_openai import ChatOpenAI
 from openai import OpenAI
@@ -13,7 +14,7 @@ from langchain.prompts import PromptTemplate
 load_dotenv('.env')
 
 # Pass the API Key to the OpenAI Client
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+client = OpenAI(api_key=st.secrets['OPENAI_API_KEY']) #os.getenv('OPENAI_API_KEY')
 
 # embedding model that we will use
 embeddings_model = OpenAIEmbeddings(model='text-embedding-3-small')
