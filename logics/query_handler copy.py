@@ -16,9 +16,6 @@ from langchain_chroma import Chroma
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 
-from langchain_community.vectorstores import FAISS
-import faiss
-from langchain_community.docstore.in_memory import InMemoryDocstore
 
 load_dotenv('.env')
 
@@ -49,17 +46,13 @@ Always base your response on the provided context from the document. Avoid any s
 Question: {question}
 Helpful Answer:"""
 
-# # Path to your existing Chroma database folder
-# chroma_db_path = "./vector_db"
+# Path to your existing Chroma database folder
+chroma_db_path = "./vector_db"
 
-# # Load the Chroma vector store from your existing folder
-# vectordb = Chroma(persist_directory=chroma_db_path, 
-#                   collection_name = 'ffice',
-#                   embedding_function=embeddings_model)
-
-vectordb = FAISS.load_local(
-    "faiss_index", embeddings_model, allow_dangerous_deserialization=True
-)
+# Load the Chroma vector store from your existing folder
+vectordb = Chroma(persist_directory=chroma_db_path, 
+                  collection_name = 'ffice',
+                  embedding_function=embeddings_model)
 
 print("Database loaded.")
 
