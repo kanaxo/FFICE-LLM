@@ -12,7 +12,7 @@ import streamlit as st
 from langchain_openai import ChatOpenAI
 from openai import OpenAI
 from langchain_openai import OpenAIEmbeddings
-from langchain_chroma import Chroma
+# from langchain_chroma import Chroma
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 
