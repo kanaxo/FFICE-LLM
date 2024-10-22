@@ -81,15 +81,7 @@ text_splitter = SemanticChunker(embeddings = embeddings_model)
 # Spit Text
 splitted_documents = text_splitter.create_documents([cleaned_text])
 
-### CREATE DATABASE ###
-# Create the vector database
-# vectordb = Chroma.from_documents(
-#     documents=splitted_documents,
-#     embedding=embeddings_model,
-#     collection_name="ffice", # one database can have multiple collections
-#     persist_directory="./vector_db"
-# )
-# print('saved to chroma database')
+### CREATE FAISS DATABASE ###
 
 # Create embeddings
 document_embeddings = embeddings_model.embed_documents([doc.page_content for doc in splitted_documents])
