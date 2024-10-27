@@ -1,0 +1,101 @@
+# Agent: Synthesizer
+## Task: Expand the A flight from London to Paris is delayed due to bad weather. scenario in a FF-ICE context
+
+
+# Agent: Synthesizer
+## Final Answer:
+In the bustling control room of eASP1, the air traffic controllers monitored the weather over the Channel, noting the heavy rainfall and reduced visibility that had grounded Flight AB123 from London to Paris. With thunderous clouds hovering above, the airline agent from AirLink, an airline known for its customer service, quickly coordinated with eASP2 for an alternative flight plan. Utilizing FF-ICE technology, they shared real-time data and analyzed various rerouting options, aiming to ensure passenger safety while minimizing chaos at the airport. Meanwhile, eASP3 prepared for an influx of diverted aircraft, ready to adjust its services dynamically based on the shared information, highlighting how an integrated approach not only addressed the delay but also forged a seamless synchronization among all stakeholders involved.
+
+
+# Agent: Airline Agent
+## Task: Decide on what messages airlines need to send for flight planning based on the scenario provided by the Scenario Expander.
+
+
+# Agent: Airline Agent
+## Final Answer:
+1. **FF-ICE MESSAGE 1** - Weather Update:
+   "ALL FLIGHTS DEPARTING FROM [AIRPORT CODE] ARE ADVISED OF POTENTIAL THUNDERSTORM ACTIVITY IN THE AREA. EXPECT TURBULENCE AND POSSIBLE DELAYS. PILOTS SHOULD MONITOR CONDITIONS."        
+
+2. **FF-ICE MESSAGE 2** - Traffic Advisory:
+   "INCREASED AIR TRAFFIC EXPECTED AT [AIRPORT CODE] DUE TO ADJACENT AIRSPACE CLOSURES. ALL FLIGHTS TO AND FROM [AIRPORT CODE] SHOULD PLAN FOR ADJUSTED FLIGHT LEVELS AND POTENTIAL HOLDING PATTERNS."
+
+3. **FF-ICE MESSAGE 3** - Runway Status:
+   "RUNWAY 27 AT [AIRPORT CODE] IS TEMPORARILY CLOSED FOR MAINTENANCE UNTIL [TIME]. FLIGHTS SHOULD USE ALTERNATE RUNWAYS AND ADJUST LANDING APPROACHES ACCORDINGLY."
+
+4. **FF-ICE MESSAGE 4** - Fuel Availability:
+   "PILOTS SHOULD BE AWARE OF RESTRICTED FUEL AVAILABILITY AT [AIRPORT CODE] DUE TO SUPPLY ISSUES. RECOMMENDED TO FUEL UP AT ALTERNATE LOCATIONS IF POSSIBLE."
+
+5. **FF-ICE MESSAGE 5** - Emergency Procedures:
+   "ALL CREWS ARE REMINDED TO REVIEW EMERGENCY PROCEDURES DUE TO CONDITIONS LEADING TO UNFAVORABLE LANDING SITUATIONS. ENSURE ALL CREW ARE UPDATED ON PROCEDURES AND PROTOCOLS."
+
+6. **FF-ICE MESSAGE 6** - International Flight Notices:
+   "FLIGHTS TO [INTERNATIONAL DESTINATION] SHOULD CONFIRM VISA AND ENTRY REQUIREMENTS DUE TO CURRENT HEALTH REGULATIONS. TRAVELERS ARE ADVISED TO HAVE ALL DOCUMENTATION READY."
+
+7. **FF-ICE MESSAGE 7** - COVID-19 Regulations:
+   "ALL OPERATIONS MUST COMPLY WITH CURRENT COVID-19 GUIDELINES. PASSENGERS ARE ADVISED TO WEAR MASKS AND FOLLOW SOCIAL DISTANCING PROTOCOLS AT [AIRPORT CODE]."
+
+8. **FF-ICE MESSAGE 8** - Special Operating Procedures:
+   "FLIGHT CREWS ADVISED OF SPECIAL OPERATING PROCEDURES IN PLACE DUE TO [SPECIFIC REASON, e.g., high security situation, etc.]. STAY INFORMED THROUGH FLIGHT DISPATCH CHANNELS."
+
+These messages will ensure that all relevant parties are informed of the current conditions affecting flight planning, enhancing safety and efficiency in operations.
+
+
+# Agent: Summarizer
+## Task: Consolidates the scenario provided by the Scenario Expander, and creates a table from the messages as mentioned by Airline and ATC agents.
+
+
+# Agent: Summarizer
+## Final Answer:
+| Description                          | Message                                                                                                                       | Sender            
+   | Receiver             |
+|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|----------------------|----------------------|
+| Weather Update                       | "ALL FLIGHTS DEPARTING FROM [AIRPORT CODE] ARE ADVISED OF POTENTIAL THUNDERSTORM ACTIVITY IN THE AREA. EXPECT TURBULENCE AND POSSIBLE DELAYS. PILOTS SHOULD MONITOR CONDITIONS." | ATC                  | All Flights          |
+| Traffic Advisory                     | "INCREASED AIR TRAFFIC EXPECTED AT [AIRPORT CODE] DUE TO ADJACENT AIRSPACE CLOSURES. ALL FLIGHTS TO AND FROM [AIRPORT CODE] SHOULD PLAN FOR ADJUSTED FLIGHT LEVELS AND POTENTIAL HOLDING PATTERNS." | ATC                  | All Flights          |
+| Runway Status                        | "RUNWAY 27 AT [AIRPORT CODE] IS TEMPORARILY CLOSED FOR MAINTENANCE UNTIL [TIME]. FLIGHTS SHOULD USE ALTERNATE RUNWAYS AND ADJUST LANDING APPROACHES ACCORDINGLY." | ATC                  | All Flights          |
+| Fuel Availability                    | "PILOTS SHOULD BE AWARE OF RESTRICTED FUEL AVAILABILITY AT [AIRPORT CODE] DUE TO SUPPLY ISSUES. RECOMMENDED TO FUEL UP AT ALTERNATE LOCATIONS IF POSSIBLE." | ATC                  | All Flights          |
+| Emergency Procedures                  | "ALL CREWS ARE REMINDED TO REVIEW EMERGENCY PROCEDURES DUE TO CONDITIONS LEADING TO UNFAVORABLE LANDING SITUATIONS. ENSURE ALL CREW ARE UPDATED ON PROCEDURES AND PROTOCOLS." | ATC                  | All Flight Crews     |
+| International Flight Notices         | "FLIGHTS TO [INTERNATIONAL DESTINATION] SHOULD CONFIRM VISA AND ENTRY REQUIREMENTS DUE TO CURRENT HEALTH REGULATIONS. TRAVELERS ARE ADVISED TO HAVE ALL DOCUMENTATION READY." | ATC                  | Airline              |
+| COVID-19 Regulations                 | "ALL OPERATIONS MUST COMPLY WITH CURRENT COVID-19 GUIDELINES. PASSENGERS ARE ADVISED TO WEAR MASKS AND FOLLOW SOCIAL DISTANCING PROTOCOLS AT [AIRPORT CODE]." | ATC                  | All Airlines         |
+| Special Operating Procedures          | "FLIGHT CREWS ADVISED OF SPECIAL OPERATING PROCEDURES IN PLACE DUE TO [SPECIFIC REASON, e.g., high security situation, etc.]. STAY INFORMED THROUGH FLIGHT DISPATCH CHANNELS." | ATC                  | All Flight Crews     |
+| Flight Plan Registration              | "Flight plan for flight ABC123 from Airport X to Airport Y filed successfully. Departure time: 2024-05-01T10:00Z."         | Airline             
+ | ATC                  |
+| Flight Plan Update                   | "Amendments to flight plan for flight ABC123; New route: Via waypoints P1, P2, and P3. Estimated flight time: 2 hours and 15 minutes." | Airline              | ATC                  |
+| Flight Plan Cancellation              | "Flight plan for flight ABC123 is cancelled due to operational changes. Please advise for rebooking options."                 | Airline          
+    | ATC                  |
+| Flight Plan Departure Clearance       | "Flight ABC123 has received departure clearance from Airport X. Standby for further instructions before taxiing."           | ATC                
+  | Airline              |
+| Flight Plan Arrival Notification      | "Flight ABC123 nearing destination Airport Y. Expected arrival time: 2024-05-01T12:15Z. Please prepare for landing."        | ATC                
+  | Airline              |
+| Flight Plan Delay Notification        | "Flight ABC123 is experiencing a delay of approximately 30 minutes due to weather conditions. Update will follow."          | ATC                
+  | Airline              |
+| Flight Plan Change Notification       | "New cruising altitude for flight ABC123: FL350. Please acknowledge receipt of this message."                               | ATC                
+  | Airline              |
+| Flight Plan Status Confirmation       | "Confirming flight plan status for flight ABC123 is active and being monitored. All systems operational."                   | ATC                
+  | Airline              |
+
+
+The result is: | Description                          | Message                                                                                                                       | Sender               | Receiver             |
+|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|----------------------|----------------------|
+| Weather Update                       | "ALL FLIGHTS DEPARTING FROM [AIRPORT CODE] ARE ADVISED OF POTENTIAL THUNDERSTORM ACTIVITY IN THE AREA. EXPECT TURBULENCE AND POSSIBLE DELAYS. PILOTS SHOULD MONITOR CONDITIONS." | ATC                  | All Flights          |
+| Traffic Advisory                     | "INCREASED AIR TRAFFIC EXPECTED AT [AIRPORT CODE] DUE TO ADJACENT AIRSPACE CLOSURES. ALL FLIGHTS TO AND FROM [AIRPORT CODE] SHOULD PLAN FOR ADJUSTED FLIGHT LEVELS AND POTENTIAL HOLDING PATTERNS." | ATC                  | All Flights          |
+| Runway Status                        | "RUNWAY 27 AT [AIRPORT CODE] IS TEMPORARILY CLOSED FOR MAINTENANCE UNTIL [TIME]. FLIGHTS SHOULD USE ALTERNATE RUNWAYS AND ADJUST LANDING APPROACHES ACCORDINGLY." | ATC                  | All Flights          |
+| Fuel Availability                    | "PILOTS SHOULD BE AWARE OF RESTRICTED FUEL AVAILABILITY AT [AIRPORT CODE] DUE TO SUPPLY ISSUES. RECOMMENDED TO FUEL UP AT ALTERNATE LOCATIONS IF POSSIBLE." | ATC                  | All Flights          |
+| Emergency Procedures                  | "ALL CREWS ARE REMINDED TO REVIEW EMERGENCY PROCEDURES DUE TO CONDITIONS LEADING TO UNFAVORABLE LANDING SITUATIONS. ENSURE ALL CREW ARE UPDATED ON PROCEDURES AND PROTOCOLS." | ATC                  | All Flight Crews     |
+| International Flight Notices         | "FLIGHTS TO [INTERNATIONAL DESTINATION] SHOULD CONFIRM VISA AND ENTRY REQUIREMENTS DUE TO CURRENT HEALTH REGULATIONS. TRAVELERS ARE ADVISED TO HAVE ALL DOCUMENTATION READY." | ATC                  | Airline              |
+| COVID-19 Regulations                 | "ALL OPERATIONS MUST COMPLY WITH CURRENT COVID-19 GUIDELINES. PASSENGERS ARE ADVISED TO WEAR MASKS AND FOLLOW SOCIAL DISTANCING PROTOCOLS AT [AIRPORT CODE]." | ATC                  | All Airlines         |
+| Special Operating Procedures          | "FLIGHT CREWS ADVISED OF SPECIAL OPERATING PROCEDURES IN PLACE DUE TO [SPECIFIC REASON, e.g., high security situation, etc.]. STAY INFORMED THROUGH FLIGHT DISPATCH CHANNELS." | ATC                  | All Flight Crews     |
+| Flight Plan Registration              | "Flight plan for flight ABC123 from Airport X to Airport Y filed successfully. Departure time: 2024-05-01T10:00Z."         | Airline             
+ | ATC                  |
+| Flight Plan Update                   | "Amendments to flight plan for flight ABC123; New route: Via waypoints P1, P2, and P3. Estimated flight time: 2 hours and 15 minutes." | Airline              | ATC                  |
+| Flight Plan Cancellation              | "Flight plan for flight ABC123 is cancelled due to operational changes. Please advise for rebooking options."                 | Airline          
+    | ATC                  |
+| Flight Plan Departure Clearance       | "Flight ABC123 has received departure clearance from Airport X. Standby for further instructions before taxiing."           | ATC                
+  | Airline              |
+| Flight Plan Arrival Notification      | "Flight ABC123 nearing destination Airport Y. Expected arrival time: 2024-05-01T12:15Z. Please prepare for landing."        | ATC                
+  | Airline              |
+| Flight Plan Delay Notification        | "Flight ABC123 is experiencing a delay of approximately 30 minutes due to weather conditions. Update will follow."          | ATC                
+  | Airline              |
+| Flight Plan Change Notification       | "New cruising altitude for flight ABC123: FL350. Please acknowledge receipt of this message."                               | ATC                
+  | Airline              |
+| Flight Plan Status Confirmation       | "Confirming flight plan status for flight ABC123 is active and being monitored. All systems operational."                   | ATC                
+  | Airline              |

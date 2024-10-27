@@ -23,3 +23,6 @@ dist/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# old code
+old_code/
