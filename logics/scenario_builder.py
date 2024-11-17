@@ -1,10 +1,16 @@
 import os
 # from dotenv import load_dotenv
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+try:
+    # For development purposes
+    from crewai import Agent, Task, Crew
+except:
+    # For streamlit deployment sqlite3 is not supported
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+    # try with pysqlite3 instead of sqlite3
+    from crewai import Agent, Task, Crew
 
-from crewai import Agent, Task, Crew
 from crewai_tools import BaseTool
 import streamlit as st
 

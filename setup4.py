@@ -12,6 +12,7 @@ from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
 from langchain_community.docstore.in_memory import InMemoryDocstore
+from langchain.memory import ConversationBufferMemory
 import faiss
 
 def extract_text_from_pdf(pdf_path):
@@ -163,12 +164,71 @@ Always base your response on the provided context from the document. Avoid any s
 Question: {question}
 Helpful Answer:"""
 
+refinement_template = """
+Use the chat history and the current question to create a more specific query for retrieving information.
+
+Chat History:
+{chat_history}
+
+Original Question:
+{question}
+
+Refined Query:
+"""
+refinement_prompt = PromptTemplate(
+    template=refinement_template,
+    input_variables=["chat_history", "question"]
+)
+
+def generate_refined_query(question, chat_history):
+    prompt = refinement_prompt.format(chat_history=chat_history, question=question)
+    refined_query = llm.get_completion(prompt)  # Run the prompt through the LLM to get the refined query
+    return refined_query.strip()
+
+# Initialize memory to keep track of chat history
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+
+def test_chain_with_refinement(qa_chain, question):
+    chat_history = memory.load_memory_variables({}).get("chat_history", "")
+    print("\nchat_history: ", chat_history)
+    refined_query = generate_refined_query(question, chat_history)
+    print("\nOriginal Question:", question)
+    print("\nrefined_query: ", refined_query)
+
+    ### TEST OUTPUT ###
+    output = qa_chain.invoke(refined_query)
+    # save the refined query to the chat history
+    memory.save_context({"input": refined_query}, {"output": output['result']})
+    ### OBTAIN NUMBER OF TOKENS USED ###
+    # Step 1: Retrieve documents based on the question
+    # retrieved_docs = vectordb.as_retriever(search_kwargs={'k': 3}).get_relevant_documents(question)
+    retrieved_docs = vectordb.similarity_search(query=refined_query, k=3)
+    # Step 2: Combine the retrieved documents into a single context string
+    context_string = "\n\n".join([doc.page_content for doc in retrieved_docs])  # Adjust according to your document structure
+    # Print the combined context string for inspection
+    print("Combined Context String:\n", context_string)
+    # Get response only
+    model_response = output['result']
+    formatted_prompt = template.format(context=context_string, question=question)
+    # Step 5: Count tokens
+    prompt_tokens = llm.count_tokens(formatted_prompt)
+    output_tokens = llm.count_tokens(model_response)
+
+    # Step 6: Calculate total tokens
+    total_tokens = prompt_tokens + output_tokens
+
+    # Print the token counts
+    print("Prompt Tokens:", prompt_tokens)
+    print("Output Tokens:", output_tokens)
+    print("Total Tokens:", total_tokens)
+    return output
 
 if __name__ == "__main__":
 
     if os.path.exists("faiss_index_2"):
         print("FAISS database already exists. Skipping preprocessing and creation.")
     else:
+        # initialise the FAISS database
         print("FAISS database not found. Starting preprocessing and creation.")
         pdf_path = "Doc 9965 Vol II Implementation Guidance.pdf"
         raw_text = extract_text_from_pdf(pdf_path)
@@ -182,6 +242,7 @@ if __name__ == "__main__":
         splitted_documents = split_documents(cleaned_text)
         vectordb = create_faiss_db(splitted_documents, "faiss_index_2", embeddings_model)
         print("FAISS database created successfully.")
+
     # load the FAISS database
     vectordb = load_faiss_db("faiss_index_2", embeddings_model)
     print('saved to FAISS database')
@@ -191,5 +252,11 @@ if __name__ == "__main__":
     print("Testing chain")
     question = 'Is ATFM restriction part of the R/T element?'
     output = test_chain(qa_chain, question)
+    print(output['result'])
+    # save the question and answer to the chat history
+    memory.save_context({"input": question}, {"output": output['result']})
+    # test out the chain with refinement
+    question = 'What is the purpose of attaching that to the R/T element?'
+    output = test_chain_with_refinement(qa_chain, question)
     print(output['result'])
 
