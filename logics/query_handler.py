@@ -55,7 +55,7 @@ vectordb = FAISS.load_local(
 
 print("Database loaded.")
 
-def process_user_prompt(query):
+def create_qa_chain():
     QA_CHAIN_PROMPT = PromptTemplate.from_template(template)
 
     # Run chain
@@ -67,6 +67,10 @@ def process_user_prompt(query):
         return_source_documents=True, # Make inspection of document possible
         chain_type_kwargs={"prompt": QA_CHAIN_PROMPT}
     )
+    return qa_chain
+
+def process_user_prompt(query):
+    qa_chain = create_qa_chain()
 
     print(f"Querying ChatGPT: {query}\n")
     ### TEST OUTPUT ###
@@ -97,3 +101,34 @@ def count_tokens_from_query(query, output):
     print("Output Tokens:", output_tokens)
     print("Total Tokens:", total_tokens)
 
+refinement_template = """
+Use the chat history and the current question to create a more specific query for retrieving information.
+
+Chat History:
+{chat_history}
+
+Original Question:
+{question}
+
+Refined Query:
+"""
+refinement_prompt = PromptTemplate(
+    template=refinement_template,
+    input_variables=["chat_history", "question"]
+)
+
+def generate_refined_query(question, chat_history):
+    prompt = refinement_prompt.format(chat_history=chat_history, question=question)
+    refined_query = llm.get_completion(prompt)  # Run the prompt through the LLM to get the refined query
+    return refined_query.strip()
+
+def process_subsequent_prompt(question, chat_history):
+    print("\nchat_history: ", chat_history)
+    refined_query = generate_refined_query(question, chat_history)
+    print("\nOriginal Question:", question)
+    print("\nrefined_query: ", refined_query)
+    qa_chain = create_qa_chain()
+
+    output = qa_chain.invoke(refined_query)
+    count_tokens_from_query(question, output)
+    return output
